@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
 type Post = {
   id: string;
@@ -13,24 +13,32 @@ type Post = {
 };
 
 export default function SearchForm() {
-  const [location, setLocation] = useState('');
+  const [location, setLocation] = useState("");
   const [minFollowers, setMinFollowers] = useState(0);
   const [results, setResults] = useState<Post[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleSearch = async () => {
     setLoading(true);
-    setError('');
+    setError("");
     try {
-      const res = await fetch(`/api/hashtag?location=${location}&minFollowers=${minFollowers}`);
+      const res = await fetch(
+        `/api/hashtag?location=${location}&minFollowers=${minFollowers}`
+      );
       if (!res.ok) {
-        throw new Error('Failed to fetch results');
+        throw new Error("Failed to fetch results");
       }
       const data = await res.json();
       setResults(data);
-    } catch (err: any) {
-      setError(err.message || 'An unexpected error occurred');
+    } catch (err) {
+      if (err  instanceof Error){
+
+        setError(err.message)
+      }else{
+
+        setError("An unexpected error occurred");
+      }
     } finally {
       setLoading(false);
     }
@@ -60,7 +68,7 @@ export default function SearchForm() {
         disabled={loading}
         aria-label="Search Button"
       >
-        {loading ? 'Searching...' : 'Search'}
+        {loading ? "Searching..." : "Search"}
       </button>
 
       {error && <p className="text-red-500 mt-2">{error}</p>}

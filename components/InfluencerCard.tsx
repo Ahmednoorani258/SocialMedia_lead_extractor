@@ -1,4 +1,4 @@
-'use client'; // Optional, as it’s a presentational component, but included for consistency
+// 'use client'; // Optional, as it’s a presentational component, but included for consistency
 
 export interface Influencer {
   username: string;

@@ -1,6 +1,6 @@
 // app/api/search/route.ts
 import { NextResponse } from "next/server";
-import { User, Post } from "@/types/types";
+import { Post } from "@/types/types";
 
 async function fetchDynamicInstagramData(location: string) {
   const BaseUrl = "https://ensembledata.com/apis/";
@@ -60,8 +60,8 @@ export async function GET(request: Request) {
     });
 
     return NextResponse.json(filtered);
-  } catch (error: any) {
-    if (error.message.includes("Maximum requests limit reached")) {
+  } catch (error) {
+    if (error instanceof Error && error.message.includes("Maximum requests limit reached")) {
       return NextResponse.json(
         { error: "API request limit reached. Please try again later." },
         { status: 429 }
